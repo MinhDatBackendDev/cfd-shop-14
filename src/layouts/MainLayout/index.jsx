@@ -5,22 +5,19 @@ import Header from "@components/Header";
 import MobileMenu from "@components/MobileMenu";
 import MobileOverlay from "@components/MobileOverlay";
 import React from "react";
+import { Outlet } from "react-router-dom";
 
-const MainLayout = ({ children }) => {
+const MainLayout = () => {
   return (
     <>
       <div className="page-wrapper">
         <Header />
-        {children}
+        <Outlet />
         <Footer />
       </div>
-
       <BackToTopButton />
-
       <MobileOverlay />
-
       <MobileMenu />
-
       <AuthModal />
     </>
   );
