@@ -1,3 +1,8 @@
+Template: https://github.com/lechauhuuthien/cfd-shop-template
+UI: https://cfdshop-ui.cfdcircle.vn/
+API: https://cfdshop.cfdcircle.vn/api
+Github link: https://github.com/lechauhuuthien/cfd14-reactjs-docs
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
