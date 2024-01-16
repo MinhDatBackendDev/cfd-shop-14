@@ -1,3 +1,4 @@
+import PrivateRoute from "@components/PrivateRoute";
 import PATHS from "@constants/paths";
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -31,24 +32,26 @@ const App = () => {
             <Route path={PATHS.ABOUT} element={<AboutPage />} />
             <Route path={PATHS.BLOG.INDEX} element={<BlogPage />} />
             <Route path={PATHS.BLOG.SINGLE} element={<BlogSinglePage />} />
-            <Route path={PATHS.CART} element={<CartPage />} />
-            <Route path={PATHS.CHECKOUT.INDEX} element={<CheckoutPage />} />
-            <Route
-              path={PATHS.CHECKOUT.SUCCESS}
-              element={<CheckoutSuccessPage />}
-            />
             <Route path={PATHS.CONTACT} element={<ContactPage />} />
             <Route path={PATHS.DASHBOARD} element={<DashboardPage />} />
             <Route path={PATHS.FAQ} element={<FaqPage />} />
             <Route path={PATHS.PAYMENT} element={<PaymentMethodsPage />} />
             <Route path={PATHS.PRIVACY} element={<PrivacyPolicyPage />} />
-            <Route path={PATHS.PRODUCT.INDEX} element={<ProductPage />} />
+            <Route path={PATHS.PRODUCTS.INDEX} element={<ProductPage />} />
             <Route
-              path={PATHS.PRODUCT.DETAIL}
+              path={PATHS.PRODUCTS.DETAIL}
               element={<ProductDetailPage />}
             />
             <Route path={PATHS.RETURNS} element={<ReturnsPage />} />
             <Route path={PATHS.SHIPPING} element={<ShippingPage />} />
+            <Route element={<PrivateRoute redirectPath={PATHS.HOME} />}>
+              <Route path={PATHS.CHECKOUT.INDEX} element={<CheckoutPage />} />
+              <Route
+                path={PATHS.CHECKOUT.SUCCESS}
+                element={<CheckoutSuccessPage />}
+              />
+              <Route path={PATHS.CART} element={<CartPage />} />
+            </Route>
             <Route path="*" element={<Page404 />} />
           </Route>
         </Routes>

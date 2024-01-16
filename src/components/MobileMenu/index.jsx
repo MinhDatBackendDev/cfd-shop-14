@@ -1,10 +1,28 @@
-import React from "react";
+import { MenuStyled } from "@components/StyledComponent";
+import PATHS from "@constants/paths";
+import { useMainContext } from "@contexts/MainContext";
+import cn from "@utils/cn";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+
+const MENUS = {
+  menu: "menu",
+  cate: "categories",
+};
 
 const MobileMenu = () => {
+  const { handleCloseMobileMenu } = useMainContext();
+  const [selectedTab, setSelectedTab] = useState(MENUS.menu);
+
+  const _onTabChange = (e, tab) => {
+    e.preventDefault();
+    setSelectedTab(tab);
+  };
+
   return (
     <div className="mobile-menu-container">
       <div className="mobile-menu-wrapper">
-        <span className="mobile-menu-close">
+        <span className="mobile-menu-close" onClick={handleCloseMobileMenu}>
           <i className="icon-close" />
         </span>
         <form action="#" method="get" className="mobile-search">
@@ -26,26 +44,36 @@ const MobileMenu = () => {
         <ul className="nav nav-pills-mobile nav-border-anim" role="tablist">
           <li className="nav-item">
             <a
-              className="nav-link active"
-              id="mobile-menu-link"
-              data-toggle="tab"
+              className={cn(`nav-link`, {
+                active: selectedTab === MENUS.menu,
+              })}
+              // id="mobile-menu-link"
+              // data-toggle="tab"
               href="#mobile-menu-tab"
-              role="tab"
-              aria-controls="mobile-menu-tab"
-              aria-selected="true"
+              // role="tab"
+              // aria-controls="mobile-menu-tab"
+              // aria-selected="true"
+              onClick={(e) => {
+                _onTabChange(e, MENUS.menu);
+              }}
             >
               Menu
             </a>
           </li>
           <li className="nav-item">
             <a
-              className="nav-link"
-              id="mobile-cats-link"
-              data-toggle="tab"
+              className={cn(`nav-link`, {
+                active: selectedTab === MENUS.cate,
+              })}
+              // id="mobile-cats-link"
+              // data-toggle="tab"
               href="#mobile-cats-tab"
-              role="tab"
-              aria-controls="mobile-cats-tab"
-              aria-selected="false"
+              // role="tab"
+              // aria-controls="mobile-cats-tab"
+              // aria-selected="false"
+              onClick={(e) => {
+                _onTabChange(e, MENUS.cate);
+              }}
             >
               Categories
             </a>
@@ -53,35 +81,45 @@ const MobileMenu = () => {
         </ul>
         <div className="tab-content">
           <div
-            className="tab-pane fade show active"
+            // className={`tab-pane fade ${
+            //   selectedTab === MENUS.menu ? "show active" : ""
+            // }`}
+            className={cn(`tab-pane fade`, {
+              "show active": selectedTab === MENUS.menu,
+            })}
             id="mobile-menu-tab"
             role="tabpanel"
             aria-labelledby="mobile-menu-link"
           >
             <nav className="mobile-nav">
-              <ul className="mobile-menu">
-                <li className="active">
-                  <a href="index.html">Home</a>
+              <MenuStyled className="mobile-menu">
+                <li>
+                  <NavLink to={PATHS.HOME}>Home</NavLink>
                 </li>
                 <li>
-                  <a href="about.html">About Us</a>
+                  <NavLink to={PATHS.ABOUT}>About Us</NavLink>
                 </li>
                 <li>
-                  <a href="product.html">Product</a>
+                  <NavLink to={PATHS.PRODUCTS.INDEX}>Product</NavLink>
                 </li>
                 <li>
-                  <a href="blog.html">Blog</a>
+                  <NavLink to={PATHS.BLOG.INDEX}>Blog</NavLink>
                 </li>
                 <li>
-                  <a href="contact.html">Contact Us</a>
+                  <NavLink to={PATHS.CONTACT}>Contact Us</NavLink>
                 </li>
-              </ul>
+              </MenuStyled>
             </nav>
             {/* End .mobile-nav */}
           </div>
           {/* .End .tab-pane */}
           <div
-            className="tab-pane fade"
+            // className={`tab-pane fade ${
+            //   selectedTab === MENUS.cate ? "show active" : ""
+            // }`}
+            className={cn(`tab-pane fade`, {
+              "show active": selectedTab === MENUS.cate,
+            })}
             id="mobile-cats-tab"
             role="tabpanel"
             aria-labelledby="mobile-cats-link"

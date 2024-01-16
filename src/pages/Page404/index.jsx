@@ -2,20 +2,22 @@ import React from "react";
 
 const Page404 = () => {
   return (
-    <main class="main">
+    <main className="main">
       <div
-        class="error-content text-center"
-        style="background-image: url(assets/images/backgrounds/error-bg.jpg)"
+        className="error-content text-center"
+        style={{
+          backgroundImage: "url(assets/images/backgrounds/error-bg.jpg)",
+        }}
       >
-        <div class="container">
-          <h1 class="error-title">Error 404</h1>
+        <div className="container">
+          <h1 className="error-title">Error 404</h1>
           <p>We are sorry, the page you've requested is not available.</p>
           <a
             href="index.html"
-            class="btn btn-outline-primary-2 btn-minwidth-lg"
+            className="btn btn-outline-primary-2 btn-minwidth-lg"
           >
             <span>BACK TO HOMEPAGE</span>
-            <i class="icon-long-arrow-right"></i>
+            <i className="icon-long-arrow-right" />
           </a>
         </div>
       </div>

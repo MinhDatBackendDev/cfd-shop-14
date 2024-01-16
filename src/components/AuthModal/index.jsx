@@ -1,13 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
+import styled from "styled-components";
+import { useAuthContext } from "@contexts/AuthContext";
+import cn from "@utils/cn";
+import { MODAL_TYPES } from "@constants/generals";
+
+const AuthModalContainer = styled.div`
+  display: ${(props) => (props?.isShow ? "block" : "none")};
+`;
 
 const AuthModal = () => {
+  const [selectedTab, setSelectedTab] = useState(MODAL_TYPES.login);
+  const { showedModal, handleShowModal, handleCloseModal } = useAuthContext();
+
+  const _onTabChange = (e, tab) => {
+    e.preventDefault();
+    setSelectedTab(tab);
+    handleShowModal?.(tab);
+  };
+
   return (
-    <div
-      className="modal fade"
-      id="signin-modal"
-      tabIndex={-1}
-      role="dialog"
-      aria-hidden="true"
+    <AuthModalContainer
+      className={cn(`modal fade`, {
+        show: !!showedModal,
+      })}
+      isShow={!!showedModal}
+      // className="modal fade"
+      // id="signin-modal"
+      // tabIndex={-1}
+      // role="dialog"
+      // aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
@@ -15,8 +38,9 @@ const AuthModal = () => {
             <button
               type="button"
               className="close"
-              data-dismiss="modal"
-              aria-label="Close"
+              // data-dismiss="modal"
+              // aria-label="Close"
+              onClick={handleCloseModal}
             >
               <span aria-hidden="true">
                 <i className="icon-close" />
@@ -30,197 +54,46 @@ const AuthModal = () => {
                 >
                   <li className="nav-item">
                     <a
-                      className="nav-link active"
-                      id="signin-tab"
-                      data-toggle="tab"
+                      className={cn(`nav-link`, {
+                        active: showedModal === MODAL_TYPES.login,
+                      })}
+                      // className="nav-link active"
+                      // id="signin-tab"
+                      // data-toggle="tab"
                       href="#signin"
-                      role="tab"
-                      aria-controls="signin"
-                      aria-selected="true"
+                      // role="tab"
+                      // aria-controls="signin"
+                      // aria-selected="true"
+                      onClick={(e) => _onTabChange(e, MODAL_TYPES.login)}
                     >
                       Sign In
                     </a>
                   </li>
                   <li className="nav-item">
                     <a
-                      className="nav-link"
-                      id="register-tab"
-                      data-toggle="tab"
+                      className={cn(`nav-link`, {
+                        active: showedModal === MODAL_TYPES.register,
+                      })}
+                      // className="nav-link"
+                      // id="register-tab"
+                      // data-toggle="tab"
                       href="#register"
-                      role="tab"
-                      aria-controls="register"
-                      aria-selected="false"
+                      // role="tab"
+                      // aria-controls="register"
+                      // aria-selected="false"
+                      onClick={(e) => _onTabChange(e, MODAL_TYPES.register)}
                     >
                       Register
                     </a>
                   </li>
                 </ul>
                 <div className="tab-content" id="tab-content-5">
-                  <div
-                    className="tab-pane fade show active"
-                    id="signin"
-                    role="tabpanel"
-                    aria-labelledby="signin-tab"
-                  >
-                    <form action="#">
-                      <div className="form-group">
-                        <label htmlFor="singin-email">
-                          Username or email address *
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control input-error"
-                          id="singin-email"
-                          name="singin-email"
-                          required
-                        />
-                        <p className="form-error">Please fill in this field</p>
-                      </div>
-                      {/* End .form-group */}
-                      <div className="form-group">
-                        <label htmlFor="singin-password">Password *</label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="singin-password"
-                          name="singin-password"
-                          required
-                        />
-                      </div>
-                      {/* End .form-group */}
-                      <div className="form-footer">
-                        <button
-                          type="submit"
-                          className="btn btn-outline-primary-2"
-                        >
-                          <span>LOG IN</span>
-                          <i className="icon-long-arrow-right" />
-                        </button>
-                        <div className="custom-control custom-checkbox">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="signin-remember"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="signin-remember"
-                          >
-                            Remember Me
-                          </label>
-                        </div>
-                        {/* End .custom-checkbox */}
-                        <a href="#" className="forgot-link">
-                          Forgot Your Password?
-                        </a>
-                      </div>
-                      {/* End .form-footer */}
-                    </form>
-                    <div className="form-choice">
-                      <p className="text-center">or sign in with</p>
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <a href="#" className="btn btn-login btn-g">
-                            <i className="icon-google" />
-                            Login With Google
-                          </a>
-                        </div>
-                        {/* End .col-6 */}
-                        <div className="col-sm-6">
-                          <a href="#" className="btn btn-login btn-f">
-                            <i className="icon-facebook-f" />
-                            Login With Facebook
-                          </a>
-                        </div>
-                        {/* End .col-6 */}
-                      </div>
-                      {/* End .row */}
-                    </div>
-                    {/* End .form-choice */}
+                  <div className="tab-pane fade show active">
+                    {selectedTab === MODAL_TYPES.login && <LoginForm />}
+                    {/* .End .tab-pane */}
+                    {selectedTab === MODAL_TYPES.register && <RegisterForm />}
+                    {/* .End .tab-pane */}
                   </div>
-                  {/* .End .tab-pane */}
-                  <div
-                    className="tab-pane fade"
-                    id="register"
-                    role="tabpanel"
-                    aria-labelledby="register-tab"
-                  >
-                    <form action="#">
-                      <div className="form-group">
-                        <label htmlFor="register-email">
-                          Your email address *
-                        </label>
-                        <input
-                          type="email"
-                          className="form-control input-error"
-                          id="register-email"
-                          name="register-email"
-                          required
-                        />
-                        <p className="form-error">Please fill in this field</p>
-                      </div>
-                      {/* End .form-group */}
-                      <div className="form-group">
-                        <label htmlFor="register-password">Password *</label>
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="register-password"
-                          name="register-password"
-                          required
-                        />
-                      </div>
-                      {/* End .form-group */}
-                      <div className="form-footer">
-                        <button
-                          type="submit"
-                          className="btn btn-outline-primary-2"
-                        >
-                          <span>SIGN UP</span>
-                          <i className="icon-long-arrow-right" />
-                        </button>
-                        <div className="custom-control custom-checkbox">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="register-policy"
-                            required
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="register-policy"
-                          >
-                            I agree to the
-                            <a href="privacy-policy.html">privacy policy</a> *
-                          </label>
-                        </div>
-                        {/* End .custom-checkbox */}
-                      </div>
-                      {/* End .form-footer */}
-                    </form>
-                    <div className="form-choice">
-                      <p className="text-center">or sign in with</p>
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <a href="#" className="btn btn-login btn-g">
-                            <i className="icon-google" />
-                            Login With Google
-                          </a>
-                        </div>
-                        {/* End .col-6 */}
-                        <div className="col-sm-6">
-                          <a href="#" className="btn btn-login  btn-f">
-                            <i className="icon-facebook-f" />
-                            Login With Facebook
-                          </a>
-                        </div>
-                        {/* End .col-6 */}
-                      </div>
-                      {/* End .row */}
-                    </div>
-                    {/* End .form-choice */}
-                  </div>
-                  {/* .End .tab-pane */}
                 </div>
                 {/* End .tab-content */}
               </div>
@@ -233,7 +106,14 @@ const AuthModal = () => {
         {/* End .modal-content */}
       </div>
       {/* End .modal-dialog */}
-    </div>
+      <div
+        style={{ zIndex: -1 }}
+        className={cn(`modal-backdrop`, {
+          "fade show": !!showedModal,
+        })}
+        onClick={handleCloseModal}
+      />
+    </AuthModalContainer>
   );
 };
 
